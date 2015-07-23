@@ -325,7 +325,7 @@ struct root_typeof_helper<unit<Dim,System>,static_rational<N,D> >
 
 /// unit runtime unary plus
 template<class Dim,class System>
-typename unary_plus_typeof_helper< unit<Dim,System> >::type
+BOOST_CONSTEXPR typename unary_plus_typeof_helper< unit<Dim,System> >::type
 operator+(const unit<Dim,System>&)
 { 
     typedef typename unary_plus_typeof_helper< unit<Dim,System> >::type type;
@@ -335,7 +335,7 @@ operator+(const unit<Dim,System>&)
 
 /// unit runtime unary minus
 template<class Dim,class System>
-typename unary_minus_typeof_helper< unit<Dim,System> >::type
+BOOST_CONSTEXPR typename unary_minus_typeof_helper< unit<Dim,System> >::type
 operator-(const unit<Dim,System>&)
 { 
     typedef typename unary_minus_typeof_helper< unit<Dim,System> >::type    type;
@@ -348,7 +348,7 @@ template<class Dim1,
          class Dim2,
          class System1,
          class System2>
-typename add_typeof_helper< unit<Dim1,System1>,
+BOOST_CONSTEXPR typename add_typeof_helper< unit<Dim1,System1>,
                             unit<Dim2,System2> >::type
 operator+(const unit<Dim1,System1>&,const unit<Dim2,System2>&)
 {
@@ -366,7 +366,7 @@ template<class Dim1,
          class Dim2,
          class System1,
          class System2>
-typename subtract_typeof_helper< unit<Dim1,System1>,
+BOOST_CONSTEXPR typename subtract_typeof_helper< unit<Dim1,System1>,
                                  unit<Dim2,System2> >::type
 operator-(const unit<Dim1,System1>&,const unit<Dim2,System2>&)
 {
@@ -384,7 +384,7 @@ template<class Dim1,
          class Dim2,
          class System1,
          class System2>
-typename multiply_typeof_helper< unit<Dim1,System1>,
+BOOST_CONSTEXPR typename multiply_typeof_helper< unit<Dim1,System1>,
                                  unit<Dim2,System2> >::type
 operator*(const unit<Dim1,System1>&,const unit<Dim2,System2>&)
 {
@@ -399,7 +399,7 @@ template<class Dim1,
          class Dim2,
          class System1,
          class System2>
-typename divide_typeof_helper< unit<Dim1,System1>,
+BOOST_CONSTEXPR typename divide_typeof_helper< unit<Dim1,System1>,
                                unit<Dim2,System2> >::type
 operator/(const unit<Dim1,System1>&,const unit<Dim2,System2>&)
 {

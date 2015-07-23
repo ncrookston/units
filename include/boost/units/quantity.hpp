@@ -98,17 +98,17 @@ class quantity
         typedef Y                                       value_type;
         typedef Unit        unit_type;
  
-        quantity() : val_() 
+        BOOST_CONSTEXPR quantity() : val_()
         { 
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
 
-        quantity(unspecified_null_pointer_constant_type) : val_() 
+        BOOST_CONSTEXPR quantity(unspecified_null_pointer_constant_type) : val_()
         { 
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
         
-        quantity(const this_type& source) : val_(source.val_) 
+        BOOST_CONSTEXPR quantity(const this_type& source) : val_(source.val_)
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
@@ -124,7 +124,7 @@ class quantity
         
         //~quantity() { }
         
-        this_type& operator=(const this_type& source) 
+        BOOST_CONSTEXPR this_type& operator=(const this_type& source)
         { 
              val_ = source.val_; 
              
@@ -135,7 +135,7 @@ class quantity
 
         /// implicit conversion between value types is allowed if allowed for value types themselves
         template<class YY>
-        quantity(const quantity<Unit,YY>& source,
+        BOOST_CONSTEXPR quantity(const quantity<Unit,YY>& source,
             typename boost::enable_if<detail::is_non_narrowing_conversion<YY, Y> >::type* = 0) :
             val_(source.value())
         { 
@@ -144,7 +144,7 @@ class quantity
 
         /// implicit conversion between value types is not allowed if not allowed for value types themselves
         template<class YY>
-        explicit quantity(const quantity<Unit,YY>& source,
+        BOOST_CONSTEXPR explicit quantity(const quantity<Unit,YY>& source,
             typename boost::disable_if<detail::is_non_narrowing_conversion<YY, Y> >::type* = 0) :
             val_(static_cast<Y>(source.value()))
         { 
@@ -155,7 +155,7 @@ class quantity
 
         /// implicit conversion between value types is allowed if allowed for value types themselves
         template<class YY>
-        quantity(const quantity<Unit,YY>& source) :
+        BOOST_CONSTEXPR quantity(const quantity<Unit,YY>& source) :
             val_(source.value())
         { 
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
@@ -166,7 +166,7 @@ class quantity
         
         /// implicit assignment between value types is allowed if allowed for value types themselves
         template<class YY>
-        this_type& operator=(const quantity<Unit,YY>& source)
+        BOOST_CONSTEXPR this_type& operator=(const quantity<Unit,YY>& source)
         {
             BOOST_STATIC_ASSERT((boost::is_convertible<YY, Y>::value == true));
 
@@ -180,7 +180,7 @@ class quantity
         /// explicit conversion between different unit systems is allowed if implicit conversion is disallowed
         template<class Unit2,class YY> 
         explicit
-        quantity(const quantity<Unit2,YY>& source, 
+        BOOST_CONSTEXPR quantity(const quantity<Unit2,YY>& source,
                  typename boost::disable_if<
                     mpl::and_<
                         //is_implicitly_convertible should be undefined when the
@@ -198,7 +198,7 @@ class quantity
 
         /// implicit conversion between different unit systems is allowed if each fundamental dimension is implicitly convertible
         template<class Unit2,class YY> 
-        quantity(const quantity<Unit2,YY>& source, 
+        BOOST_CONSTEXPR quantity(const quantity<Unit2,YY>& source,
                  typename boost::enable_if<
                      mpl::and_<
                          typename is_implicitly_convertible<Unit2,Unit>::type,
@@ -217,7 +217,7 @@ class quantity
         /// without SFINAE we can't distinguish between explicit and implicit conversions so 
         /// the conversion is always explicit
         template<class Unit2,class YY> 
-        explicit quantity(const quantity<Unit2,YY>& source)
+        BOOST_CONSTEXPR explicit quantity(const quantity<Unit2,YY>& source)
              : val_(conversion_helper<quantity<Unit2,YY>,this_type>::convert(source).value())
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
@@ -228,7 +228,7 @@ class quantity
         
         /// implicit assignment between different unit systems is allowed if each fundamental dimension is implicitly convertible 
         template<class Unit2,class YY>
-        this_type& operator=(const quantity<Unit2,YY>& source)
+        BOOST_CONSTEXPR this_type& operator=(const quantity<Unit2,YY>& source)
         {
             
             BOOST_STATIC_ASSERT((is_implicitly_convertible<Unit2,unit_type>::value == true));
@@ -239,11 +239,11 @@ class quantity
             return *this;
         }
 
-        const value_type& value() const                     { return val_; }                        ///< constant accessor to value
+        BOOST_CONSTEXPR const value_type& value() const                     { return val_; }                        ///< constant accessor to value
         
         ///< can add a quantity of the same type if add_typeof_helper<value_type,value_type>::type is convertible to value_type
         template<class Unit2, class YY>
-        this_type& operator+=(const quantity<Unit2, YY>& source)
+        BOOST_CONSTEXPR this_type& operator+=(const quantity<Unit2, YY>& source)
         {
             BOOST_STATIC_ASSERT((boost::is_same<typename add_typeof_helper<Unit, Unit2>::type, Unit>::value));
             val_ += source.value();
@@ -252,7 +252,7 @@ class quantity
 
         ///< can subtract a quantity of the same type if subtract_typeof_helper<value_type,value_type>::type is convertible to value_type
         template<class Unit2, class YY>
-        this_type& operator-=(const quantity<Unit2, YY>& source)
+        BOOST_CONSTEXPR this_type& operator-=(const quantity<Unit2, YY>& source)
         {
             BOOST_STATIC_ASSERT((boost::is_same<typename subtract_typeof_helper<Unit, Unit2>::type, Unit>::value));
             val_ -= source.value();
@@ -890,7 +890,7 @@ template<class System,
          class Dim,
          class Y>
 inline
-typename multiply_typeof_helper< unit<Dim,System>,Y >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< unit<Dim,System>,Y >::type
 operator*(const unit<Dim,System>&,const Y& rhs)
 {
     typedef typename multiply_typeof_helper< unit<Dim,System>,Y >::type type;
@@ -903,7 +903,7 @@ template<class System,
          class Dim,
          class Y>
 inline
-typename divide_typeof_helper< unit<Dim,System>,Y >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< unit<Dim,System>,Y >::type
 operator/(const unit<Dim,System>&,const Y& rhs)
 {
     typedef typename divide_typeof_helper<unit<Dim,System>,Y>::type type;
@@ -916,7 +916,7 @@ template<class System,
          class Dim,
          class Y>
 inline
-typename multiply_typeof_helper< Y,unit<Dim,System> >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< Y,unit<Dim,System> >::type
 operator*(const Y& lhs,const unit<Dim,System>&)
 {
     typedef typename multiply_typeof_helper< Y,unit<Dim,System> >::type type;
@@ -929,7 +929,7 @@ template<class System,
          class Dim,
          class Y>
 inline
-typename divide_typeof_helper< Y,unit<Dim,System> >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< Y,unit<Dim,System> >::type
 operator/(const Y& lhs,const unit<Dim,System>&)
 {
     typedef typename divide_typeof_helper< Y,unit<Dim,System> >::type   type;
@@ -967,7 +967,7 @@ operator/(const Y& lhs,const unit<Dim,System>&)
 template<class Unit,
          class X>
 inline
-typename multiply_typeof_helper< quantity<Unit,X>,X >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< quantity<Unit,X>,X >::type
 operator*(const quantity<Unit,X>& lhs,const X& rhs)
 {
     typedef typename multiply_typeof_helper< quantity<Unit,X>,X >::type type;
@@ -979,7 +979,7 @@ operator*(const quantity<Unit,X>& lhs,const X& rhs)
 template<class Unit,
          class X>
 inline
-typename multiply_typeof_helper< X,quantity<Unit,X> >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< X,quantity<Unit,X> >::type
 operator*(const X& lhs,const quantity<Unit,X>& rhs)
 {
     typedef typename multiply_typeof_helper< X,quantity<Unit,X> >::type type;
@@ -1043,7 +1043,7 @@ template<class System1,
          class Unit2,
          class Y>
 inline
-typename multiply_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type
 operator*(const unit<Dim1,System1>&,const quantity<Unit2,Y>& rhs)
 {
     typedef typename multiply_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type  type;
@@ -1057,7 +1057,7 @@ template<class System1,
          class Unit2,
          class Y>
 inline
-typename divide_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type
 operator/(const unit<Dim1,System1>&,const quantity<Unit2,Y>& rhs)
 {
     typedef typename divide_typeof_helper< unit<Dim1,System1>,quantity<Unit2,Y> >::type    type;
@@ -1071,7 +1071,7 @@ template<class Unit1,
          class Dim2,
          class Y>
 inline
-typename multiply_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type
 operator*(const quantity<Unit1,Y>& lhs,const unit<Dim2,System2>&)
 {
     typedef typename multiply_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type  type;
@@ -1085,7 +1085,7 @@ template<class Unit1,
          class Dim2,
          class Y>
 inline
-typename divide_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type
 operator/(const quantity<Unit1,Y>& lhs,const unit<Dim2,System2>&)
 {
     typedef typename divide_typeof_helper< quantity<Unit1,Y>,unit<Dim2,System2> >::type    type;
@@ -1095,7 +1095,7 @@ operator/(const quantity<Unit1,Y>& lhs,const unit<Dim2,System2>&)
 
 /// runtime unary plus quantity
 template<class Unit,class Y>
-typename unary_plus_typeof_helper< quantity<Unit,Y> >::type
+BOOST_CONSTEXPR typename unary_plus_typeof_helper< quantity<Unit,Y> >::type
 operator+(const quantity<Unit,Y>& val)
 { 
     typedef typename unary_plus_typeof_helper< quantity<Unit,Y> >::type     type;
@@ -1105,7 +1105,7 @@ operator+(const quantity<Unit,Y>& val)
 
 /// runtime unary minus quantity
 template<class Unit,class Y>
-typename unary_minus_typeof_helper< quantity<Unit,Y> >::type
+BOOST_CONSTEXPR typename unary_minus_typeof_helper< quantity<Unit,Y> >::type
 operator-(const quantity<Unit,Y>& val)
 { 
     typedef typename unary_minus_typeof_helper< quantity<Unit,Y> >::type    type;
@@ -1119,7 +1119,7 @@ template<class Unit1,
          class X,
          class Y>
 inline
-typename add_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename add_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
 operator+(const quantity<Unit1,X>& lhs,
           const quantity<Unit2,Y>& rhs)
 {
@@ -1134,7 +1134,7 @@ template<class Unit1,
          class X,
          class Y>
 inline
-typename subtract_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename subtract_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
 operator-(const quantity<Unit1,X>& lhs,
           const quantity<Unit2,Y>& rhs)
 {
@@ -1149,7 +1149,7 @@ template<class Unit1,
          class X,
          class Y>
 inline
-typename multiply_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename multiply_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
 operator*(const quantity<Unit1,X>& lhs,
           const quantity<Unit2,Y>& rhs)
 {
@@ -1165,7 +1165,7 @@ template<class Unit1,
          class X,
          class Y>
 inline
-typename divide_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< quantity<Unit1,X>,quantity<Unit2,Y> >::type
 operator/(const quantity<Unit1,X>& lhs,
           const quantity<Unit2,Y>& rhs)
 {
