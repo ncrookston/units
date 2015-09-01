@@ -42,11 +42,11 @@ class unit
         typedef Dim                 dimension_type; 
         typedef System              system_type;
         
-        unit() { }
-        unit(const this_type&) { }
+        BOOST_CONSTEXPR unit() { }
+        BOOST_CONSTEXPR unit(const this_type&) { }
         //~unit() { }  
        
-        this_type& operator=(const this_type&) { return *this; }
+        BOOST_CONSTEXPR this_type& operator=(const this_type&) { return *this; }
         
         // sun will ignore errors resulting from templates
         // instantiated in the return type of a function.

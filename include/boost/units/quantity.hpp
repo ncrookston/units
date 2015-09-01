@@ -281,10 +281,10 @@ class quantity
         this_type& operator/=(const value_type& source) { val_ /= source; return *this; }
     
         /// Construct quantity directly from @c value_type (potentially dangerous).
-        static this_type from_value(const value_type& val)  { return this_type(val, 0); }
+        BOOST_CONSTEXPR static this_type from_value(const value_type& val)  { return this_type(val, 0); }
 
     protected:
-        explicit quantity(const value_type& val, int) : val_(val) { }
+        BOOST_CONSTEXPR explicit quantity(const value_type& val, int) : val_(val) { }
         
     private:
         value_type    val_;

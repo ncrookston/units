@@ -40,7 +40,7 @@ struct scale
     static const long base = Base;
     typedef Exponent exponent;
     typedef double value_type;
-    static value_type value() { return(detail::static_rational_power<Exponent>(static_cast<double>(base))); }
+    BOOST_CONSTEXPR static value_type value() { return(detail::static_rational_power<Exponent>(static_cast<double>(base))); }
     // These need to be defined in specializations for
     // printing to work.
     // static std::string name();
@@ -57,7 +57,7 @@ struct scale<Base, static_rational<0> >
     static const long base = Base;
     typedef static_rational<0> exponent;
     typedef one value_type;
-    static one value() { one result; return(result); }
+    BOOST_CONSTEXPR static one value() { one result; return(result); }
     static std::string name() { return(""); }
     static std::string symbol() { return(""); }
 };
@@ -86,7 +86,7 @@ struct scale<base_, exponent_ >                                              \
     static const long base = base_;                                          \
     typedef exponent_ exponent;                                              \
     typedef double value_type;                                               \
-    static value_type value()   { return(val_); }                            \
+    BOOST_CONSTEXPR static value_type value()   { return(val_); }                            \
     static std::string name()   { return(#name_); }                          \
     static std::string symbol() { return(#symbol_); }                        \
 }
