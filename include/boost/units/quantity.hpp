@@ -1017,7 +1017,7 @@ operator*(const X& lhs,const quantity<Unit,X>& rhs)
 template<class Unit,
          class X>
 inline
-typename divide_typeof_helper< quantity<Unit,X>,X >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< quantity<Unit,X>,X >::type
 operator/(const quantity<Unit,X>& lhs,const X& rhs)
 {
     typedef typename divide_typeof_helper< quantity<Unit,X>,X >::type   type;
@@ -1029,7 +1029,7 @@ operator/(const quantity<Unit,X>& lhs,const X& rhs)
 template<class Unit,
          class X>
 inline
-typename divide_typeof_helper< X,quantity<Unit,X> >::type
+BOOST_CONSTEXPR typename divide_typeof_helper< X,quantity<Unit,X> >::type
 operator/(const X& lhs,const quantity<Unit,X>& rhs)
 {
     typedef typename divide_typeof_helper< X,quantity<Unit,X> >::type   type;
