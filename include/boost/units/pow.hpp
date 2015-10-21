@@ -35,7 +35,7 @@ pow(const Y& x)
 
 /// raise a value to an integer power.
 template<long N,class Y>
-inline typename power_typeof_helper<Y,static_rational<N> >::type
+BOOST_CONSTEXPR inline typename power_typeof_helper<Y,static_rational<N> >::type
 pow(const Y& x)
 {
     return power_typeof_helper<Y,static_rational<N> >::value(x);
