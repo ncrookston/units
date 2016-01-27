@@ -27,7 +27,7 @@ namespace units {
 
 /// raise a value to a @c static_rational power.
 template<class Rat,class Y>
-inline typename power_typeof_helper<Y,Rat>::type
+inline constexpr typename power_typeof_helper<Y,Rat>::type
 pow(const Y& x)
 {
     return power_typeof_helper<Y,Rat>::value(x);
@@ -35,7 +35,7 @@ pow(const Y& x)
 
 /// raise a value to an integer power.
 template<long N,class Y>
-inline typename power_typeof_helper<Y,static_rational<N> >::type
+inline constexpr typename power_typeof_helper<Y,static_rational<N> >::type
 pow(const Y& x)
 {
     return power_typeof_helper<Y,static_rational<N> >::value(x);

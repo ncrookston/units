@@ -42,11 +42,11 @@ class unit
         typedef Dim                 dimension_type; 
         typedef System              system_type;
         
-        unit() { }
-        unit(const this_type&) { }
+        constexpr unit() { }
+        constexpr unit(const this_type&) { }
         //~unit() { }  
        
-        this_type& operator=(const this_type&) { return *this; }
+        constexpr this_type& operator=(const this_type&) { return *this; }
         
         // sun will ignore errors resulting from templates
         // instantiated in the return type of a function.
@@ -305,7 +305,7 @@ struct power_typeof_helper<unit<Dim,System>,static_rational<N,D> >
 { 
     typedef unit<typename static_power<Dim,static_rational<N,D> >::type,typename static_power<System, static_rational<N,D> >::type>     type; 
     
-    static type value(const unit<Dim,System>&)  
+    static constexpr type value(const unit<Dim,System>&)  
     { 
         return type();
     }
@@ -317,7 +317,7 @@ struct root_typeof_helper<unit<Dim,System>,static_rational<N,D> >
 { 
     typedef unit<typename static_root<Dim,static_rational<N,D> >::type,typename static_root<System, static_rational<N,D> >::type>      type; 
     
-    static type value(const unit<Dim,System>&)  
+    static constexpr type value(const unit<Dim,System>&)  
     { 
         return type();
     }
