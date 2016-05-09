@@ -50,7 +50,7 @@ template<class R, class Y>
 struct static_rational_power_impl
 {
     typedef typename typeof_pow_adl_barrier::typeof_pow<Y>::type type;
-    static type call(const Y& y)
+    static BOOST_CONSTEXPR type call(const Y& y)
     {
         using std::pow;
         return(pow(y, static_cast<double>(R::Numerator) / static_cast<double>(R::Denominator)));
@@ -61,7 +61,7 @@ template<class R>
 struct static_rational_power_impl<R, one>
 {
     typedef one type;
-    static one call(const one&)
+    static BOOST_CONSTEXPR one call(const one&)
     {
         one result;
         return(result);
@@ -72,7 +72,7 @@ template<long N>
 struct static_rational_power_impl<static_rational<N, 1>, one>
 {
     typedef one type;
-    static one call(const one&)
+    static BOOST_CONSTEXPR one call(const one&)
     {
         one result;
         return(result);
@@ -185,14 +185,14 @@ struct static_rational_power_impl<static_rational<N, 1>, Y>
 {
     typedef typename static_int_power_sign_impl<N>::template apply<Y> impl;
     typedef typename impl::type type;
-    static type call(const Y& y)
+    static BOOST_CONSTEXPR type call(const Y& y)
     {
         return(impl::call(y));
     }
 };
 
 template<class R, class Y>
-typename detail::static_rational_power_impl<R, Y>::type static_rational_power(const Y& y)
+BOOST_CONSTEXPR typename detail::static_rational_power_impl<R, Y>::type static_rational_power(const Y& y)
 {
     return(detail::static_rational_power_impl<R, Y>::call(y));
 }

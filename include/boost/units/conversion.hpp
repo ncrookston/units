@@ -51,7 +51,7 @@ struct conversion_helper;
 template<class From, class To>
 struct conversion_helper
 {
-    static To convert(const From&);
+    static BOOST_CONSTEXPR To convert(const From&);
 };
 
 #endif
@@ -170,7 +170,7 @@ BOOST_UNITS_DEFAULT_CONVERSION(namespace_::name_ ## _base_unit, unit)
 /// Find the conversion factor between two units.
 template<class FromUnit,class ToUnit>
 inline
-typename one_to_double_type<
+BOOST_CONSTEXPR typename one_to_double_type<
     typename detail::conversion_factor_helper<FromUnit, ToUnit>::type
 >::type
 conversion_factor(const FromUnit&,const ToUnit&)
