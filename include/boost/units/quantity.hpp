@@ -281,7 +281,7 @@ class quantity
         this_type& operator/=(const value_type& source) { val_ /= source; return *this; }
     
         /// Construct quantity directly from @c value_type (potentially dangerous).
-        BOOST_CONSTEXPR static this_type from_value(const value_type& val)  { return this_type(val, 0); }
+        static BOOST_CONSTEXPR this_type from_value(const value_type& val)  { return this_type(val, 0); }
 
     protected:
         BOOST_CONSTEXPR explicit quantity(const value_type& val, int) : val_(val) { }
@@ -305,25 +305,25 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
         typedef dimensionless_type                              dimension_type;
         typedef unit<dimension_type,system_type>                unit_type;
          
-        quantity() : val_() 
+        BOOST_CONSTEXPR quantity() : val_() 
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
         
         /// construction from raw @c value_type is allowed
-        quantity(value_type val) : val_(val) 
+        BOOST_CONSTEXPR quantity(value_type val) : val_(val) 
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         } 
                            
-        quantity(const this_type& source) : val_(source.val_) 
+        BOOST_CONSTEXPR quantity(const this_type& source) : val_(source.val_) 
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
         
         //~quantity() { }
         
-        this_type& operator=(const this_type& source) 
+        BOOST_CONSTEXPR this_type& operator=(const this_type& source) 
         { 
             val_ = source.val_; 
                 
@@ -334,7 +334,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit conversion between value types is allowed if allowed for value types themselves
         template<class YY>
-        quantity(const quantity<unit<dimension_type,system_type>,YY>& source,
+        BOOST_CONSTEXPR quantity(const quantity<unit<dimension_type,system_type>,YY>& source,
             typename boost::enable_if<detail::is_non_narrowing_conversion<YY, Y> >::type* = 0) :
             val_(source.value())
         { 
@@ -343,7 +343,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit conversion between value types is not allowed if not allowed for value types themselves
         template<class YY>
-        explicit quantity(const quantity<unit<dimension_type,system_type>,YY>& source,
+        BOOST_CONSTEXPR explicit quantity(const quantity<unit<dimension_type,system_type>,YY>& source,
             typename boost::disable_if<detail::is_non_narrowing_conversion<YY, Y> >::type* = 0) :
             val_(static_cast<Y>(source.value()))
         { 
@@ -354,7 +354,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit conversion between value types is allowed if allowed for value types themselves
         template<class YY>
-        quantity(const quantity<unit<dimension_type,system_type>,YY>& source) :
+        BOOST_CONSTEXPR quantity(const quantity<unit<dimension_type,system_type>,YY>& source) :
             val_(source.value())
         { 
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
@@ -365,7 +365,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
         
         /// implicit assignment between value types is allowed if allowed for value types themselves
         template<class YY>
-        this_type& operator=(const quantity<unit<dimension_type,system_type>,YY>& source)
+        BOOST_CONSTEXPR this_type& operator=(const quantity<unit<dimension_type,system_type>,YY>& source)
         {
             BOOST_STATIC_ASSERT((boost::is_convertible<YY,Y>::value == true));
 
@@ -378,7 +378,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit conversion between different unit systems is allowed
         template<class System2, class Y2> 
-        quantity(const quantity<unit<dimensionless_type, System2>,Y2>& source,
+        BOOST_CONSTEXPR quantity(const quantity<unit<dimensionless_type, System2>,Y2>& source,
         #ifdef __SUNPRO_CC
             typename boost::enable_if<
                 boost::mpl::and_<
@@ -422,7 +422,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit conversion between different unit systems is allowed
         template<class System2, class Y2> 
-        quantity(const quantity<unit<dimensionless_type,homogeneous_system<System2> >,Y2>& source) :
+        BOOST_CONSTEXPR quantity(const quantity<unit<dimensionless_type,homogeneous_system<System2> >,Y2>& source) :
             val_(source.value()) 
         {
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
@@ -434,7 +434,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
         /// conversion between different unit systems is explicit when
         /// the units are not equivalent.
         template<class System2, class Y2> 
-        explicit quantity(const quantity<unit<dimensionless_type, System2>,Y2>& source,
+        BOOST_CONSTEXPR explicit quantity(const quantity<unit<dimensionless_type, System2>,Y2>& source,
             typename boost::disable_if<detail::is_dimensionless_system<System2> >::type* = 0) :
             val_(conversion_helper<quantity<unit<dimensionless_type, System2>,Y2>, this_type>::convert(source).value()) 
         {
@@ -445,7 +445,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
 
         /// implicit assignment between different unit systems is allowed
         template<class System2>
-        this_type& operator=(const quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System2),Y>& source)
+        BOOST_CONSTEXPR this_type& operator=(const quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System2),Y>& source)
         {
             *this = this_type(source);
             
@@ -472,7 +472,7 @@ class quantity<BOOST_UNITS_DIMENSIONLESS_UNIT(System),Y>
         this_type& operator/=(const value_type& val)        { val_ /= val; return *this; }          
 
         /// Construct quantity directly from @c value_type.
-        static this_type from_value(const value_type& val)  { return this_type(val); }
+        static BOOST_CONSTEXPR this_type from_value(const value_type& val)  { return this_type(val); }
 
    private:
         value_type    val_;

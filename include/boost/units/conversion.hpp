@@ -51,7 +51,7 @@ struct conversion_helper;
 template<class From, class To>
 struct conversion_helper
 {
-    static To convert(const From&);
+    static BOOST_CONSTEXPR To convert(const From&);
 };
 
 #endif
