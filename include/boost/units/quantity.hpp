@@ -104,7 +104,7 @@ class quantity
         }
 
         BOOST_CONSTEXPR quantity(unspecified_null_pointer_constant_type) : val_()
-        { 
+        {  
             BOOST_UNITS_CHECK_LAYOUT_COMPATIBILITY(this_type, Y);
         }
         
@@ -1180,7 +1180,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator==(const quantity<Unit,X>& val1,
            const quantity<Unit,Y>& val2)
 {
@@ -1192,7 +1192,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator!=(const quantity<Unit,X>& val1,
            const quantity<Unit,Y>& val2)
 {
@@ -1204,7 +1204,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator<(const quantity<Unit,X>& val1,
           const quantity<Unit,Y>& val2)
 {
@@ -1216,7 +1216,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator<=(const quantity<Unit,X>& val1,
            const quantity<Unit,Y>& val2)
 {
@@ -1228,7 +1228,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator>(const quantity<Unit,X>& val1,
           const quantity<Unit,Y>& val2)
 {
@@ -1240,7 +1240,7 @@ template<class Unit,
          class X,
          class Y>
 inline
-bool 
+BOOST_CONSTEXPR bool
 operator>=(const quantity<Unit,X>& val1,
            const quantity<Unit,Y>& val2)
 {
